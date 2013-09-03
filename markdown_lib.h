@@ -20,6 +20,8 @@ enum markdown_formats {
 
 NSMutableAttributedString* markdown_to_attr_string(NSString *text, int extensions, NSDictionary* attributes);
 
+NSDictionary* markdown_default_attributes();
+
 NSMutableString * markdown_to_nsstring(NSString *text, int extensions, int output_format);
 const char * markdown_to_string(NSString *text, int extensions, int output_format);
 

@@ -86,6 +86,10 @@ static element * process_raw_blocks(element *input, int extensions, element *ref
 }
 
 NSMutableAttributedString* markdown_to_attr_string(NSString *text, int extensions, NSDictionary* attributes) {
+    if (attributes == nil) {
+        attributes = markdown_default_attributes();
+    }
+    
     NSMutableAttributedString *out = [[[NSMutableAttributedString alloc] init] autorelease];
     
     NSMutableString *formatted_text = preformat_text(text);
@@ -141,6 +145,47 @@ NSMutableAttributedString* markdown_to_attr_string(NSString *text, int extension
     free_element_list(result);
     free_element_list(references);
     return out;
+}
+
+NSDictionary* markdown_default_attributes() {
+    UIColor *linkColor = [UIColor blueColor];
+    UIFont *emFont = [UIFont italicSystemFontOfSize: 14.0];
+    UIFont *strongFont = [UIFont boldSystemFontOfSize: 14.0];
+    UIFont *paragraphFont = [UIFont systemFontOfSize: 14.0];
+    UIFont *h1Font = [UIFont boldSystemFontOfSize: 24.0];
+    UIFont *h2Font = [UIFont boldSystemFontOfSize: 18.0];
+    UIFont *h3Font = [UIFont boldSystemFontOfSize: 16.0];
+    // ul
+    NSMutableParagraphStyle* listParagraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    listParagraphStyle.headIndent = 6.0;
+    // li
+    NSMutableParagraphStyle* listItemParagraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    listItemParagraphStyle.headIndent = 6.0;
+    // blockquote
+    NSMutableParagraphStyle* blockquoteParagraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    blockquoteParagraphStyle.headIndent = 16.0;
+    blockquoteParagraphStyle.firstLineHeadIndent = 16.0;
+    // verbatim (code)
+    NSMutableParagraphStyle* verbatimParagraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    verbatimParagraphStyle.headIndent = 16.0;
+    verbatimParagraphStyle.firstLineHeadIndent = 16.0;
+    UIFont *verbatimFont = [UIFont fontWithName:@"CourierNewPSMT" size:10.0];
+    
+    NSDictionary *attributes = @{
+                                 @(LINK): @{NSForegroundColorAttributeName:linkColor},
+                                 @(IMAGE): @{NSForegroundColorAttributeName:linkColor},
+                                 @(EMPH): @{NSFontAttributeName:emFont},
+                                 @(STRONG): @{NSFontAttributeName:strongFont},
+                                 @(PARA): @{NSFontAttributeName:paragraphFont},
+                                 @(H1): @{NSFontAttributeName:h1Font},
+                                 @(H2): @{NSFontAttributeName:h2Font},
+                                 @(H3): @{NSFontAttributeName:h3Font},
+                                 @(BULLETLIST): @{NSParagraphStyleAttributeName:listParagraphStyle},
+                                 @(LISTITEM): @{NSParagraphStyleAttributeName:listItemParagraphStyle},
+                                 @(BLOCKQUOTE): @{NSParagraphStyleAttributeName:blockquoteParagraphStyle},
+                                 @(VERBATIM): @{NSParagraphStyleAttributeName:verbatimParagraphStyle, NSFontAttributeName:verbatimFont}
+                                 };
+    return attributes;
 }
 
 @implementation NSString (Sugar)
