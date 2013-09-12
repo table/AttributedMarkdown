@@ -544,7 +544,6 @@ AutoLinkUrl =   '<' < [A-Za-z]+ "://" ( !Newline !'>' . )+ > '>'
 AutoLinkEmail = '<' < [-A-Za-z0-9+_]+ '@' ( !Newline !'>' . )+ > '>'
                 {   NSString *mailto = [NSString stringWithFormat:@"mailto:%s", yytext];
                     $$ = mk_link(mk_str(yytext), mailto, @"");
-                    free(mailto);
                 }
 
 Reference = NonindentSpace !"[]" l:Label ':' Spnl s:RefSrc Spnl t:RefTitle BlankLine*
