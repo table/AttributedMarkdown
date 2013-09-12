@@ -765,7 +765,6 @@ YY_ACTION(void) yy_1_AutoLinkEmail(GREG *G, char *yytext, int yyleng, yythunk *t
   yyprintf((stderr, "do yy_1_AutoLinkEmail\n"));
      NSString *mailto = [NSString stringWithFormat:@"mailto:%s", yytext];
                     yy = mk_link(mk_str(yytext), mailto, @"");
-                    free(mailto);
                 ;
 }
 YY_ACTION(void) yy_1_AutoLinkUrl(GREG *G, char *yytext, int yyleng, yythunk *thunk, YY_XTYPE YY_XVAR)
